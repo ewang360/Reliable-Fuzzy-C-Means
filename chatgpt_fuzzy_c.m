@@ -24,7 +24,7 @@ for iter = 1:maxIter
     U_new = U_new ./ sum(U_new, 2);
     
     % Calculate the objective function (J) to check for convergence
-    J = sum(sum((U_new.^m) .* distance))
+    J = sum(sum((U_new.^m) .* distance));
     
     % Check for convergence
     if abs(J - sum(sum((U.^m) .* distance))) < tolerance
@@ -33,4 +33,5 @@ for iter = 1:maxIter
     
     U = U_new; % Update the membership matrix
 end
+U = U';
 end
