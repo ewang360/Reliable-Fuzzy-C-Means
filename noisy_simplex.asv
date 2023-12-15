@@ -1,22 +1,19 @@
+for iteration = 1:10
 im = double(imread("panda.jpg")) / 255;
 cutoff = 0.01
 
-while true
-noisy_im = imnoise(im,'salt & pepper',0.02);
+m=2;
 data = reshape(im, [], 3);
-
 n_centers = 4;
+
+[centers_truth,U_truth] = chatgpt_fuzzy_c(data, n_centers, m);
+
+noisy_im1 = imnoise(im,'speckle',0.025);
+data1 = reshape(noisy_im1, [], 3);
 
 options = fcmOptions(NumClusters=n_centers);
 
-[centers1,U1] = chatgpt_fuzzy_c(data, n_centers, 2);
-
-[centers2,U2] = chatgpt_fuzzy_c(data, n_centers, 2);
-
-%diff = immse(U1,U2);
-
-%match them to each other
-%%
+[centers1,U1] = chatgpt_fuzzy_c(data1, n_centers, m);
 
 mapping = zeros(n_centers,1);
 for i = 1:n_centers
@@ -33,13 +30,8 @@ for i = 1:n_centers
 end
 
 %%
-distance = 0;
-for i = 1:n_centers
-    distance = distance + norm(centers1(i,:) - centers2(mapping(i),:));
-end
-avg_distance = distance / n_centers
+avg_distance_end(iteration) = fuzzy_c_cost(data, centers2,)
 
-if avg_distance < cutoff
-    break
 end
-end
+mean_val = mean(avg_distance_end)
+var_val = var(avg_distance_end)

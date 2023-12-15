@@ -6,6 +6,8 @@ maxIter = 20; % Maximum number of iterations
 tolerance = 1e-5; % Minimum improvement in the objective function
 
 % Initialize membership matrix randomly
+t=rng;
+rng(10501);
 U = rand(size(data, 1), c);
 U = U ./ sum(U, 2); % Normalize membership values
 
@@ -34,4 +36,5 @@ for iter = 1:maxIter
     U = U_new; % Update the membership matrix
 end
 U = U';
+rng(t);
 end
